@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prova - Jogo Herói vs Vilão</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- Herói no canto inferior esquerdo -->
+  <div class="character hero">
+    <div class="shield" id="hero-shield"></div> <!-- Escudo para o herói -->
+    <div class="flaming-text">Hattori Hanzo</div> <!-- Nome do herói com efeito flamejante -->
+    <div class="life-bar">
+      <div class="progress-bar" :class="{ 'warning': hero.life <= 15, 'dead': hero.life <= 0 }" :style="{ width: hero.life + '%' }"></div>
+    </div>
+    <div class="sprite hero"></div> <!-- Imagem do herói -->
+    <div class="actions">
+      <button @click="attack(true)">Atacar</button>
+      <button @click="defense(true)">Defender</button>
+      <button @click="usePotion(true)">Usar Poção</button>
+      <button @click="flee(true)">Fim do Turno</button>
+    </div>
+  </div>
+
+  <div id="fireball" class="fireball"></div>
+  <div class="katana"></div>
+
+  <!-- Vilão -->
+  <div class="character villain">
+    <div class="shield" id="villain-shield"></div> <!-- Escudo para o vilão -->
+    <div class="attack-up" id="attack-up">Attack up!</div>
+    <div class="sprite villain"></div> <!-- Imagem do vilão -->
+    <div class="life-bar">
+      <div id="villain-life" class="progress-bar" :class="{ 'warning': villain.life <= 15, 'dead': villain.life <= 0 }" :style="{ width: villain.life + '%' }"></div>
+    </div>
+    <div class="flaming-text" id="villain-name">The Night Wizard</div>
+  </div>
+
+  <!-- Tela de fim de jogo -->
+  <div v-if="gameOver" class="game-over">
+    <h1>{{ winnerMessage }}</h1>
+    <p>Deseja jogar uma nova partida?</p>
+    <div class="button-container">
+      <button @click="restartGame">Sim</button>
+      <button @click="closeGame">Não</button>
+    </div>
+  </div>
+</div>
+
+<!-- Adicionando as tags de áudio -->
+<audio id="background-music" src="midi/battle.mp3" loop></audio>
+<audio id="victory-music" src="midi/Victory.mp3"></audio>
+<audio id="evil-laugh" src="midi/evil laugh.wav"></audio>
+<script src="index.js"></script>
+</body>
+</html>

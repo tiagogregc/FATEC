@@ -1,0 +1,336 @@
+@font-face {
+    font-family: 'Protest Guerrilla';
+    src: url('font/ProtestGuerrilla-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Evita rolagem desnecessária */
+    background-image: url('dia.gif');
+    background-size: cover; /* Ajusta o fundo para cobrir a tela */
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 1s ease-in-out; /* Transição suave para a troca de fundo */
+    font-family: 'Protest Guerrilla', sans-serif; /* Aplica a fonte a todo o texto da página */
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.character {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero {
+    bottom: 20px;
+    left: 20px;
+    text-align: center;
+}
+
+.villain {
+    top: 20px;
+    right: 20px;
+    text-align: center;
+}
+
+.life-bar {
+    width: 200px; /* Largura da barra de vida */
+    height: 20px; /* Altura da barra de vida */
+    background-color: #ddd; /* Cor de fundo da barra de vida */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Adiciona uma sombra sutil para melhor visualização */
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: seagreen; /* Cor verde para a barra de progresso */
+    border-radius: 5px;
+    transition: width 0.5s linear; /* Transição suave ao diminuir o tamanho */
+}
+
+.warning {
+    animation: pulse 1s infinite; /* Animação de piscar */
+}
+
+.dead {
+    background-color: red; /* Cor vermelha quando a vida é 0 ou menor */
+}
+
+@keyframes pulse {
+    0% { background-color: red; }
+    50% { background-color: yellow; }
+    100% { background-color: red; }
+}
+
+.sprite {
+    background-size: contain; /* Ajusta o tamanho da imagem para caber na div */
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+
+.sprite.hero {
+    width: 200px; /* Largura dobrada do Samurai */
+    height: 300px; /* Altura dobrada do Samurai */
+    background-image: url('Samurai.gif');
+}
+
+.sprite.villain {
+    width: 200px; /* O dobro da largura do herói */
+    height: 300px; /* O dobro da altura do herói */
+    background-image: url('mago.gif');
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 150px;
+    margin: 0 auto; /* Centraliza os botões dentro do container */
+    position: relative;
+    top: 10px; /* Ajuste o espaço entre a imagem do personagem e os botões */
+}
+
+button {
+    width: 100%; /* Faz com que todos os botões tenham a mesma largura */
+    height: 50px; /* Define uma altura fixa para todos os botões */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #e0e0e0; /* Cinza claro para o botão */
+    color: #333; /* Texto preto */
+    font-family: 'Protest Guerrilla', sans-serif; /* Aplica a fonte desejada */
+    font-size: 14px; /* Ajuste o tamanho da fonte conforme necessário */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Impressão de 3D */
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c0c0c0; /* Cor de fundo ao passar o mouse */
+}
+
+button:active {
+    background-color: #b0b0b0; /* Cor de fundo ao clicar */
+    transform: translateY(2px); /* Impressão de clique */
+}
+
+/* Estilos para a tela de fim de jogo */
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8); /* Fundo escuro com opacidade */
+    padding: 40px;
+    border-radius: 10px;
+    color: white;
+}
+
+.game-over h1 {
+    font-size: 3rem; /* Aumenta o tamanho da fonte do título */
+    margin-bottom: 20px;
+}
+
+.game-over p {
+    font-size: 1.8rem; /* Aumenta o tamanho da fonte da mensagem */
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os botões */
+}
+
+.button-container button {
+    width: 120px;
+    height: 50px;
+    font-size: 16px;
+    background-color: #e0e0e0; /* Cor de fundo do botão */
+    color: #333; /* Cor do texto */
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-family: 'Protest Guerrilla', sans-serif;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-container button:hover {
+    background-color: #c0c0c0; /* Cor de fundo ao passar o mouse */
+}
+
+.button-container button:active {
+    background-color: #b0b0b0; /* Cor de fundo ao clicar */
+    transform: translateY(2px); /* Efeito de clique */
+}
+
+/* Moldura para os personagens */
+.character {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente preto */
+    border: 2px solid rgba(255, 255, 255, 0.8); /* Moldura transparente branca */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra sutil */
+}
+
+/* Moldura do herói envolvendo personagem, barra de vida e botões */
+.hero {
+    bottom: 20px;
+    left: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente preto */
+    border: 2px solid rgba(255, 255, 255, 0.8); /* Moldura transparente branca */
+    border-radius: 10px;
+    padding: 20px 10px 40px; /* Aumenta o padding inferior para espaçar o botão */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra sutil */
+}
+
+/* Ajustes específicos para a moldura do vilão */
+.villain {
+    top: 20px;
+    right: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente preto */
+    border: 2px solid rgba(255, 255, 255, 0.8); /* Moldura transparente branca */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra sutil */
+}
+
+/* Ajustes para a barra de vida */
+.life-bar {
+    width: 200px;
+    height: 20px;
+    background-color: black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Sombra para a barra de vida */
+}
+
+/* Ajustes para os botões do herói */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 150px;
+    margin: 0 auto;
+    position: relative;
+    top: 10px;
+}
+
+/* Estilo para o texto flamejante dos nomes */
+.flaming-text {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: orange;
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.8),
+    0 0 20px rgba(255, 69, 0, 0.6),
+    0 0 30px rgba(255, 0, 0, 0.4);
+    animation: flicker 2s infinite;
+    margin-top: 10px; /* Espaço acima do nome */
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 165, 0, 0.8),
+        0 0 20px rgba(255, 69, 0, 0.6),
+        0 0 30px rgba(255, 0, 0, 0.4);
+    }
+    50% {
+        opacity: 0.8;
+        text-shadow: 0 0 20px rgba(255, 69, 0, 0.6),
+        0 0 30px rgba(255, 0, 0, 0.4);
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 165, 0, 0.8),
+        0 0 20px rgba(255, 69, 0, 0.6),
+        0 0 30px rgba(255, 0, 0, 0.4);
+    }
+}
+
+/* Estilo para o texto "Attack up!" dentro da moldura do vilão */
+.attack-up {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: orange;
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.4);
+    animation: flicker 2s infinite;
+    display: none; /* Oculta o texto por padrão */
+    position: absolute;
+    top: 10px; /* Ajuste conforme necessário */
+    left: 50%; /* Centraliza horizontalmente dentro da moldura */
+    transform: translateX(-50%); /* Corrige a centralização */
+    z-index: 10; /* Garante que o texto esteja acima dos outros elementos */
+}
+
+.fireball {
+    width: 100px; /* Tamanho da fireball */
+    height: 100px; /* Tamanho da fireball */
+    background: url('fireball.gif') no-repeat center center; /* Imagem da fireball */
+    background-size: contain;
+    position: absolute;
+    display: none; /* Inicialmente oculto */
+    z-index: 10; /* Coloque acima dos outros elementos */
+    pointer-events: none; /* Evita que a fireball interfira em outros cliques */
+}
+
+.katana {
+    position: absolute;
+    width: 300px; /* Ajuste o tamanho conforme necessário */
+    height: 150px; /* Ajuste o tamanho conforme necessário */
+    background-image: url('katana.gif'); /* Substitua 'katana.png' pelo caminho da sua imagem */
+    background-size: cover; /* Faz a imagem cobrir o elemento */
+    display: none; /* Começa oculta */
+}
+
+/* Estilo para o escudo */
+.shield {
+    position: absolute;
+    width: 100%;  /* Escudo ligeiramente maior que o personagem */
+    height: 100%;
+    background: url('shield.png') no-repeat center;
+    background-size: 100px;
+    opacity: 0.7;  /* Transparência para ver o personagem por trás */
+    display: none;  /* Escondido por padrão */
+}
+
+#hero-shield {
+    top: 1%;  /* Ajuste para posicionar sobre o herói */
+    left: 20%;
+    transform: translate(-10%, -60%); /* Centraliza o escudo sobre o herói */
+}
+
+#villain-shield {
+    top: 50%;  /* Ajuste para posicionar abaixo do vilão */
+    left: 50%;
+    transform: translate(-10%, -40%); /* Centraliza o escudo abaixo do vilão */
+}
